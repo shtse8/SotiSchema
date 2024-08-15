@@ -120,6 +120,81 @@ class ExampleModel {
 }
 ```
 
+### Adding Descriptions to Your Schema
+
+When generating schemas with SotiSchema, you can include descriptions for your fields in two ways:
+
+1. **Doc Comments**: Use regular Dart doc comments (`///`) above your class fields. SotiSchema will automatically extract these comments and include them as descriptions in the generated schema.
+
+2. **`@Description` Annotation**: If you prefer more control or want to add descriptions that differ from your doc comments, you can use the `@Description` annotation. This approach allows you to provide explicit descriptions directly.
+
+#### Example with Doc Comments
+
+```dart
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:soti_schema/soti_schema.dart';
+
+part 'example_model.freezed.dart';
+part 'example_model.g.dart';
+
+@freezed
+@SotiSchema()
+class ExampleModel with _$ExampleModel {
+  const factory ExampleModel({
+    /// The name of the person.
+    @Default('') String name,
+
+    /// The age of the person in years.
+    @Default(0) int age,
+
+    /// A list of hobbies the person enjoys.
+    @Default([]) List<String> hobbies,
+  }) = _ExampleModel;
+
+  factory ExampleModel.fromJson(Map<String, dynamic> json) =>
+      _$ExampleModelFromJson(json);
+
+  @jsonSchema
+  static String get schema => _$ExampleModelSchema;
+}
+```
+
+In this example, the doc comments will be used as descriptions in the generated JSON schema.
+
+#### Example with `@Description` Annotation
+
+```dart
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:soti_schema/soti_schema.dart';
+import 'package:meta/meta.dart';
+
+part 'example_model.freezed.dart';
+part 'example_model.g.dart';
+
+@freezed
+@SotiSchema()
+class ExampleModel with _$ExampleModel {
+  const factory ExampleModel({
+    @Description('The name of the person.')
+    @Default('') String name,
+
+    @Description('The age of the person in years.')
+    @Default(0) int age,
+
+    @Description('A list of hobbies the person enjoys.')
+    @Default([]) List<String> hobbies,
+  }) = _ExampleModel;
+
+  factory ExampleModel.fromJson(Map<String, dynamic> json) =>
+      _$ExampleModelFromJson(json);
+
+  @jsonSchema
+  static String get schema => _$ExampleModelSchema;
+}
+```
+
+In this example, the `@Description` annotations will be used as descriptions in the generated JSON schema.
+
 ### Flexible Schema Naming
 
 With SotiSchema, you have the freedom to name your schema methods however you like and choose between returning a `String` or `Map<String, dynamic>`. SotiSchema adapts to your needs:
