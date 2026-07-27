@@ -9,9 +9,11 @@ permissions:
   contents: read
 jobs:
   flutter:
-    runs-on: ubuntu-latest
+    runs-on: sylphx-linux-standard
     steps:
       - uses: actions/checkout@v4
+      - name: Verify static owned runner profiles
+        run: bash scripts/check-owned-runner-profiles.sh
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
