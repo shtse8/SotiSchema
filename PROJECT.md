@@ -9,8 +9,6 @@ release boundary.
 
 - Lifecycle: `active`
 - Layer: `foundation`
-- Doctrine source of truth: [SylphxAI/doctrine](https://github.com/SylphxAI/doctrine)
-- Machine manifest: `.doctrine/project.json`
 
 ## Goals
 
